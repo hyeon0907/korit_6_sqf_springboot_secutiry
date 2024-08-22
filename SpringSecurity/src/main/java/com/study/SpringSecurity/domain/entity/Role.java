@@ -1,23 +1,23 @@
-package com.study.SpringSecurity.domain;
+package com.study.SpringSecurity.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Data
-@Builder
-public class User {
 
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
-    private String username;
-    @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
     private String name;
+
 }
