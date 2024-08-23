@@ -1,5 +1,6 @@
 package com.study.SpringSecurity.domain.entity;
 
+import com.study.SpringSecurity.security.Principal.PrincipalUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -33,4 +35,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public PrincipalUser toPrincipalUser(){
+        return PrincipalUser.builder()
+                .userId(id)
+                .username(username)
+                .password(password)
+                .roles(roles)
+                .build();
+    }
+//    @OneToMany(mappedBy = "user")
+//    private Set<UserRole> userRoles = new HashSet<>();
 }

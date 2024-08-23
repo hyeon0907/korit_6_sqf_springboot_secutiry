@@ -1,5 +1,7 @@
 package com.study.SpringSecurity.config;
 
+import com.study.SpringSecurity.security.filter.JwtAccessTokenFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -8,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // JPA
 // SecurityConfigurerAdapter 추상클래스
@@ -15,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // ioc 컨테이너에 bean으로 생성되어 저장댐(bean등록을 할수있음)
 @EnableWebSecurity // 우리가 만든 SecurityConfig를 적용시키겠다.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JwtAccessTokenFilter jwtAccessTokenFilter;
 
     // 암호화를 하기 위한 객체 생성
     // 생성된 객체 하나가 메소드 명으로 passwordEncoder ioc 등록
@@ -60,6 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers()
                 .frameOptions() //iframe
                 .disable();
-
+        http.addFilterBefore(jwtAccessTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

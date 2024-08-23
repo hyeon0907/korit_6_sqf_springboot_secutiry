@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Builder
@@ -20,4 +22,6 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
+//    @OneToMany(mappedBy = "role")
+//    private Set<UserRole> roleRoles = new HashSet<>();
 }

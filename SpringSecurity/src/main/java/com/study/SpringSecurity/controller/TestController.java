@@ -1,8 +1,12 @@
 package com.study.SpringSecurity.controller;
 
+import com.study.SpringSecurity.security.Principal.PrincipalUser;
 import com.study.SpringSecurity.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,11 +18,10 @@ public class TestController {
 
     @GetMapping("/test")
     public ResponseEntity<?> get() {
-        System.out.println(testService.aopTest()); // pointcut에 등록하면 -> 이 메소드 호출 시 TestAspect에 around가 실행
-        testService.aopTest2("김병규" , 28);
-        testService.aopTest3("010-9988-1916" , "부산 동래구");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
 
-        return ResponseEntity.ok("확인");
+        return ResponseEntity.ok(principalUser);
 
     }
 }
