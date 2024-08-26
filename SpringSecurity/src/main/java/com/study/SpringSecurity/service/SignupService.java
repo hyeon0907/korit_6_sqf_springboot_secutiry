@@ -27,7 +27,7 @@ public class SignupService {
     public User signup(ReqSignupDto dto) {
         User user = dto.toEntity(passwordEncoder);
         Role role = roleRepository.findByName("ROLE_USER").orElseGet(
-                () -> roleRepository.save(Role.builder().name("ROLE_NAME").build())
+                () -> roleRepository.save(Role.builder().name("ROLE_USER").build())
         );
         user.setRoles(Set.of(role));
         user = userRepository.save(user);

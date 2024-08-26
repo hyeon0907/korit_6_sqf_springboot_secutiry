@@ -1,0 +1,32 @@
+spring 프로젝트 생성
+pom.xml 버전 바꾸기
+
+application.properties파일 yml로 바꾸기
+yml파일 설정
+db url설정
+
+config파일 생성
+securityconfig파일 만들기
+어노테이션
+@EnableWebSecurity
+사용 이유: 스프링 시큐리티를 활성화고 웹 보안 설정을
+구성하는데 사용함
+@Configuration
+
+WebSecurityConfigurerAdapter 상속
+configure를 오버라이드 해서 사용하기 위해서
+
+controller 생성
+회원가입 controller에서
+비밀번호 일치한지 체크문
+오류생기면 bindingResult에 error 넣어주기
+
+(유효성 검사)
+dto만들기
+
+xml 파일 생성후
+repository, entity 만들기
+
+service만든 후
+주요 기능 구현
+

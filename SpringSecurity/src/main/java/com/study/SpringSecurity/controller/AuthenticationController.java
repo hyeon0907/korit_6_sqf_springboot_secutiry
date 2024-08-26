@@ -44,7 +44,6 @@ public class AuthenticationController {
     @ValidAop
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@Valid @RequestBody ReqSigninDto dto, BeanPropertyBindingResult bindingResult) {
-        signinService.signin(dto);
         return ResponseEntity.ok().body(signinService.signin(dto));
     }
 }
