@@ -144,3 +144,6 @@ INSERT INTO ROLE VALUES(DEFAULT, 'ROLE_USER'), VALUES(DEFAULT, 'ROLE_MANAGER'), 
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+2024-08-29 11:35:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE USER ( ID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, USERNAME VARCHAR(255) UNIQUE NOT NULL, PASSWORD VARCHAR(255) NOT NULL, NAME VARCHAR(255) NOT NULL, EMAIL VARCHAR(255) NOT NULL[*]"; expected "AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, COMMENT, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE USER ( id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) UNIQUE not null, password VARCHAR(255) not null, name VARCHAR(255) not null, email VARCHAR(255) NOT NULL [42001-200]

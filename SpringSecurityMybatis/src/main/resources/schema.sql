@@ -6,7 +6,8 @@ CREATE TABLE USER (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE not null,
     password VARCHAR(255) not null,
-    name VARCHAR(255) not null
+    name VARCHAR(255) not null,
+    email VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE ROLE (
