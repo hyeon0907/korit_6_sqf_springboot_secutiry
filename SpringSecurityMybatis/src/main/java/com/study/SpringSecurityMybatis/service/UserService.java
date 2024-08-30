@@ -5,6 +5,7 @@ import com.study.SpringSecurityMybatis.dto.request.ReqSignupDto;
 import com.study.SpringSecurityMybatis.dto.response.RespDeleteUserDto;
 import com.study.SpringSecurityMybatis.dto.response.RespSigninDto;
 import com.study.SpringSecurityMybatis.dto.response.RespSignupDto;
+import com.study.SpringSecurityMybatis.dto.response.RespUserInfoDto;
 import com.study.SpringSecurityMybatis.entity.Role;
 import com.study.SpringSecurityMybatis.entity.User;
 import com.study.SpringSecurityMybatis.entity.UserRoles;
@@ -15,6 +16,7 @@ import com.study.SpringSecurityMybatis.repository.UserMapper;
 import com.study.SpringSecurityMybatis.repository.UserRolesMapper;
 import com.study.SpringSecurityMybatis.security.jwt.JwtProvider;
 import com.study.SpringSecurityMybatis.security.principal.PrincipalUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,8 +30,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserService {
 
     @Autowired
@@ -127,6 +131,21 @@ public class UserService {
                 .isDeleting(true)
                 .message("사용자 삭제 완료")
                 .deletedUser(user)
+                .build();
+    }
+
+    public RespUserInfoDto getUserinfo(Long id) {
+        User user = userMapper.findById(id);
+        Set<String> roles = user.getUserRoles().stream().map(
+                userRole -> userRole.getRole().getName()
+        ).collect(Collectors.toSet());
+
+        return RespUserInfoDto.builder()
+                .userId(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .email(user.getEmail())
+                .roles(roles)
                 .build();
     }
 }

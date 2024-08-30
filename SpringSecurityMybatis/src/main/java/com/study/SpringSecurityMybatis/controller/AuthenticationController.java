@@ -26,6 +26,7 @@ public class AuthenticationController {
 
     @ValidAop
     @PostMapping("/auth/signup")
+
     public ResponseEntity<?> signup(@Valid @RequestBody ReqSignupDto dto, BindingResult bindingResult) throws SignupException {
         return ResponseEntity.ok().body(userService.insertUserAndUserRoles(dto));
     }

@@ -7,9 +7,9 @@ import { signupApi } from '../../apis/signupApi';
 const layout = css`
     display: flex;
     flex-direction: column;
-    width: 460px;
     margin: 0px auto;
-`
+    width: 460px;
+`;
 
 const logo = css`
     font-size: 24px;
@@ -32,11 +32,12 @@ const joinInfoBox = css`
     }
 
     & p {
-        margin: 0px 0px 10px;
+        margin: 0px 0px 10px 10px;
         color: #ff2f2f;
+        font-size: 12px;
     }
 
-    & > div {
+    & div {
         box-sizing: border-box;
         width: 100%;
         border: 1px solid #dbdbdb;
@@ -44,17 +45,17 @@ const joinInfoBox = css`
         padding: 0px 20px;
     }
 
-    & > div:nth-of-type(1) {
+    & div:nth-of-type(1) {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
 
-    & > div:nth-last-of-type(1) {
-        border-bottom: 1px solid#dbdbdb;
+    & div:nth-last-of-type(1) {
+        border-bottom: 1px solid #dbdbdb;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-`
+`;
 
 const joinButton = css`
     border: none;
@@ -66,16 +67,17 @@ const joinButton = css`
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-`
+`;
 
 function UserJoinPage(props) {
     const navigate = useNavigate();
+
     const [ inputUser, setInputUser ] = useState({
-       username: "",
-       password: "",
-       checkPassword: "",
-       name: "",
-       email: ""
+        username: "",
+        password: "",
+        checkPassword: "",
+        name: "",
+        email: ""
     });
 
     const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
@@ -84,7 +86,7 @@ function UserJoinPage(props) {
         checkPassword: <></>,
         name: <></>,
         email: <></>,
-    })
+    }); 
 
     const handleInputUserOnChange = (e) => {
         setInputUser(inputUser => ({
@@ -95,15 +97,17 @@ function UserJoinPage(props) {
 
     const handleJoinSubmitOnClick = async () => {
         const signupData = await signupApi(inputUser);
-        if(!signupData.isSuccess){
-            showFiledErrorMessage(signupData.filedErrors);
+        if(!signupData.isSuceess) {
+            showFieldErrorMessage(signupData.fieldErrors);
             return;
         }
+
         alert(`${signupData.ok.message}`);
         navigate("/user/login");
     }
+    
 
-    const showFiledErrorMessage = (fieldErrors) => {
+    const showFieldErrorMessage = (fieldErrors) => {
         let EmptyFieldErrors = {
             username: <></>,
             password: <></>,
@@ -118,35 +122,36 @@ function UserJoinPage(props) {
                 [fieldError.field]: <p>{fieldError.defaultMessage}</p>,
             }
         }
+
         setFieldErrorMessages(EmptyFieldErrors);
     }
 
     return (
         <div css={layout}>
-            <Link to={"/"} css={logo}>사이트 로고</Link>
+            <Link to={"/"}><h1 css={logo}>사이트 로고</h1></Link>
             <div css={joinInfoBox}>
                 <div>
-                    <input type="text" name="username" onChange={handleInputUserOnChange} value={inputUser.username} placeholder='아이디' />
+                    <input type="text" name='username' onChange={handleInputUserOnChange} value={inputUser.username} placeholder='아이디'/>
                     {fieldErrorMessages.username}
                 </div>
                 <div>
-                    <input type="password" name="password" onChange={handleInputUserOnChange} value={inputUser.password} placeholder='비밀번호'/>
+                    <input type="password" name='password' onChange={handleInputUserOnChange} value={inputUser.password} placeholder='비밀번호'/>
                     {fieldErrorMessages.password}
                 </div>
                 <div>
-                    <input type="password" name="checkPassword" onChange={handleInputUserOnChange} value={inputUser.checkPassword} placeholder='비밀번호 확인'/>
+                    <input type="password" name='checkPassword' onChange={handleInputUserOnChange} value={inputUser.checkPassword} placeholder='비밀번호 확인'/>
                     {fieldErrorMessages.checkPassword}
                 </div>
                 <div>
-                    <input type="text"  name="name" onChange={handleInputUserOnChange} value={inputUser.name} placeholder='성명'/>
+                    <input type="text" name='name' onChange={handleInputUserOnChange} value={inputUser.name} placeholder='성명'/>
                     {fieldErrorMessages.name}
                 </div>
                 <div>
-                    <input type="email" name="email" onChange={handleInputUserOnChange} value={inputUser.email} placeholder='이메일주소'/>
+                    <input type="email" name='email' onChange={handleInputUserOnChange} value={inputUser.email} placeholder='이메일주소'/>
                     {fieldErrorMessages.email}
                 </div>
             </div>
-            <button onClick={handleJoinSubmitOnClick} css={joinButton}>가입하기</button>
+            <button css={joinButton} onClick={handleJoinSubmitOnClick}>가입하기</button>
         </div>
     );
 }

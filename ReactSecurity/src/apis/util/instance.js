@@ -5,4 +5,4 @@ export const instance = axios.create({
     headers: {
         Authorization: localStorage.getItem("accessToken"),
     }
-})
+});
