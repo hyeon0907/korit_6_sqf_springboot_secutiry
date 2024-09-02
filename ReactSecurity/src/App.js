@@ -1,70 +1,80 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import IndexPage from "./pages/indexPage/IndexPage";
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import IndexPage from "./pages/IndexPage/IndexPage";
 import UserJoinPage from "./pages/UserJoinPage/UserJoinPage";
 import UserLoginPage from "./pages/UserLoginPage/UserLoginPage";
 import { instance } from "./apis/util/instance";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 
 function App() {
-    const [ refresh, setRefresh ] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [ authRefresh, setAuthRefresh ] = useState(true);
+
+    useEffect(() => {
+        if(!authRefresh){
+            setAuthRefresh(true);
+        }
+    }, [location.pathname]);
 
     const accessTokenValid = useQuery(
-        ["accessTokenValidQuery"], 
+        ["accessTokenValidQuery"],
         async () => {
-            setRefresh(false);
+            setAuthRefresh(false);
             return await instance.get("/auth/access", {
                 params: {
                     accessToken: localStorage.getItem("accessToken")
                 }
             });
         }, {
-            retry: 0,
-            onSuccess: response => {
-                console.log("OK 응답 !!!", response.data);
-            },
-            onError: error => {
-                console.log("오류!!!", error);
+        enabled: authRefresh,
+        retry: 0,
+        refetchOnWindowFocus: false,
+        onSuccess: response => {
+            const permitAllPaths = ["/user"];
+            for(let permitAllPath of permitAllPaths) {
+                if(location.pathname.startsWith(permitAllPath)){
+                    // alert("잘못된 요청입니다.");
+                    navigate("/");
+                    break;
+                }
+            }
+        },
+        onError: error => {
+            const authPaths = ["/profile"];
+            for (let authPath of authPaths) {
+                if (location.pathname.startsWith(authPath)) {
+                    navigate("/user/login");
+                    break;
+                }
             }
         }
+    }
     );
 
     const userInfo = useQuery(
         ["userInfoQuery"],
         async () => {
             return await instance.get("/user/me");
-        }, 
-        {   
-            enabled: accessTokenValid.isSuccess && accessTokenValid.data?.data, 
-            onSuccess: response => {
-                console.log("onSuccess: ", response);
-            },
-            onError: error => {
-                console.log("onError: ", error);
-            }
+        },
+        {
+            enabled: accessTokenValid.isSuccess && accessTokenValid.data?.data,
+            retry: 0,
+            refetchOnWindowFocus: false,
         },
     )
 
-    useEffect(() => {
-        // const accessToken = localStorage.getItem("accessToken");
-        // if(!!accessToken) {
-        //     setRefresh(true)
-        // }
-        console.log("Effect!!!");
-    }, [accessTokenValid])
-
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={ <IndexPage /> }/>
-                <Route path="/user/join" element={ <UserJoinPage /> }/>
-                <Route path="/user/login" element={ <UserLoginPage /> }/>
-
-                <Route path="/admin/*" element={ <></> }/>
-                <Route path="/admin/*" element={ <h1>Not Found</h1> }/>
-                <Route path="*" element={ <h1>Not Found</h1> }/>
-            </Routes>
-        </BrowserRouter>
+        <Routes>
+            <Route path="/" element={<IndexPage />} />
+            <Route path="/user/join" element={<UserJoinPage />} />
+            <Route path="/user/login" element={<UserLoginPage />} />
+            <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/admin/*" element={<></>} />
+            <Route path="/admin/*" element={<h1>Not Found</h1>} />
+            <Route path="*" element={<h1>Not Found</h1>} />
+        </Routes>
     );
 }
 

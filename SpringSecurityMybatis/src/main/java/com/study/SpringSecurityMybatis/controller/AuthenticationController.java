@@ -8,6 +8,7 @@ import com.study.SpringSecurityMybatis.exception.AccessTokenValidException;
 import com.study.SpringSecurityMybatis.exception.SignupException;
 import com.study.SpringSecurityMybatis.service.TokenService;
 import com.study.SpringSecurityMybatis.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
+@Slf4j
 public class AuthenticationController {
 
     @Autowired

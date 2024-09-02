@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtProvider {
 
     private final Key key;
@@ -38,6 +40,9 @@ public class JwtProvider {
     }
 
     public String removeBearer(String bearerToken){
+        if(bearerToken == null){
+            throw new RuntimeException();
+        }
         int bearerLength = "bearer ".length();
         return bearerToken.substring(bearerLength);
     }
