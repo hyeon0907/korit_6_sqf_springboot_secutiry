@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import IndexPage from "./pages/IndexPage/IndexPage";
 import UserJoinPage from "./pages/UserJoinPage/UserJoinPage";
 import UserLoginPage from "./pages/UserLoginPage/UserLoginPage";
@@ -6,6 +6,9 @@ import { instance } from "./apis/util/instance";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
+import Test from "./pages/Test";
+import OAuth2JoinPage from "./pages/OAuth2JoinPage/OAuth2JoinPage";
+import OAuth2LoginPage from "./pages/OAuth2LoginPage/OAuth2LoginPage";
 
 function App() {
     const location = useLocation();
@@ -66,9 +69,12 @@ function App() {
     )
 
     return (
+        //<Test/>
         <Routes>
             <Route path="/" element={<IndexPage />} />
             <Route path="/user/join" element={<UserJoinPage />} />
+            <Route path="/user/join/oauth2" element={<OAuth2JoinPage />} />
+            <Route path="/user/login/oauth2" element={<OAuth2LoginPage />} />
             <Route path="/user/login" element={<UserLoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
             <Route path="/admin/*" element={<></>} />

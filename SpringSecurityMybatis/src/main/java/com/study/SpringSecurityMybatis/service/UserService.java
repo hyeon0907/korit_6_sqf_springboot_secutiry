@@ -1,12 +1,11 @@
 package com.study.SpringSecurityMybatis.service;
 
-import com.study.SpringSecurityMybatis.dto.request.ReqProfileImgDto;
-import com.study.SpringSecurityMybatis.dto.request.ReqSigninDto;
-import com.study.SpringSecurityMybatis.dto.request.ReqSignupDto;
+import com.study.SpringSecurityMybatis.dto.request.*;
 import com.study.SpringSecurityMybatis.dto.response.RespDeleteUserDto;
 import com.study.SpringSecurityMybatis.dto.response.RespSigninDto;
 import com.study.SpringSecurityMybatis.dto.response.RespSignupDto;
 import com.study.SpringSecurityMybatis.dto.response.RespUserInfoDto;
+import com.study.SpringSecurityMybatis.entity.OAuth2User;
 import com.study.SpringSecurityMybatis.entity.Role;
 import com.study.SpringSecurityMybatis.entity.User;
 import com.study.SpringSecurityMybatis.entity.UserRoles;
@@ -65,6 +64,7 @@ public class UserService {
     @Transactional(rollbackFor = SignupException.class)
     public RespSignupDto insertUserAndUserRoles(ReqSignupDto dto) throws SignupException {
         User user = null;
+
         try {
             user = dto.toEntity(passwordEncoder);
             userMapper.save(user);
@@ -165,4 +165,14 @@ public class UserService {
         userMapper.modifyImgById(principalUser.getId(), dto.getImg());
         return true;
     }
+
+    public OAuth2User mergeSignin(ReqAuth2MergeDto dto){
+        User user = checkUsernameAndPassword(dto.getUsername(), dto.getPassword());
+        return OAuth2User.builder()
+                .userId(user.getId())
+                .oAuth2Name(dto.getOauth2Name())
+                .provider(dto.getProvider())
+                .build();
+    }
+
 }

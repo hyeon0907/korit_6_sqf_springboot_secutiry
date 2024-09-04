@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: application_secret.yml
   datasource:
     url: jdbc:h2:file:./data/auth_db;MODE=MySql
     driver-class-name: org.h2.Driver
@@ -19,6 +21,3 @@ user:
   profile:
     img:
       default: https://firebasestorage.googleapis.com/v0/b/userprofile-6905d.appspot.com/o/user%2Fdefault-user-icon.jpg?alt=media&token=f004f9ab-04f1-479e-a8b5-1ea975de0d7d
-
-jwt:
-  secret: 596e55e53fd6d7d46c5a545a9b9e3ad3a954aa61918f29d9ec3a069c892b64550491175f65118a06d1db36566510952f19e2b29b60a2f0fcd52977758a89bf82340fe83b400b71937f8d918c1d573dffae3be4c882270f9bf9cfff583472dc55a187d06081bfc9a4d8f3582c479d3fa2020d02073843e9e08cd051b9c26de80f0f7af7925ed6b88c5ba6e11cceac8f3ca7fdf33c258388a3a497ca4737cd3bcbc4cd6890b2b37ba77063f68541870930adaf0a0bdcfbd7366bc0ba34fba302e315cf3a890691447a383e0c7cd363dd6cfc58e1998959abbc719d542424f8e52475f51433beaeed2fdc79117168c83d05e4dd6c1e6ed5f9925666fd0cbe9a1b9f
